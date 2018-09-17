@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderPayinfoDao">
+
+	<resultMap id="orderPayinfoResultMap" type="com.yaic.app.order.dto.domain.OrderPayinfoDto">
+        <id property="payId" column="PAY_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="payNo" column="PAY_NO" jdbcType="VARCHAR"></result>
+        <result property="payWay" column="PAY_WAY" jdbcType="VARCHAR"></result>
+        <result property="payAmount" column="PAY_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="payStatus" column="PAY_STATUS" jdbcType="VARCHAR"></result>
+        <result property="payDate" column="PAY_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="accountHolder" column="ACCOUNT_HOLDER" jdbcType="VARCHAR"></result>
+        <result property="bankDeposit" column="BANK_DEPOSIT" jdbcType="VARCHAR"></result>
+        <result property="bankAccount" column="BANK_ACCOUNT" jdbcType="VARCHAR"></result>
+	</resultMap>
+
+</mapper>
+

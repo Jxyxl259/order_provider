@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderClaimDao">
+
+	<resultMap id="orderClaimResultMap" type="com.yaic.app.order.dto.domain.OrderClaimDto">
+        <id property="claimId" column="CLAIM_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="serialNo" column="SERIAL_NO" jdbcType="INTEGER"></result>
+		<result property="sectionNo" column="SECTION_NO" jdbcType="VARCHAR"></result>
+        <result property="kindCode" column="KIND_CODE" jdbcType="VARCHAR"></result>
+        <result property="claimInd" column="CLAIM_IND" jdbcType="VARCHAR"></result>
+        <result property="limitCode" column="LIMIT_CODE" jdbcType="VARCHAR"></result>
+        <result property="deductibleCode" column="DEDUCTIBLE_CODE" jdbcType="VARCHAR"></result>
+        <result property="deductible" column="DEDUCTIBLE" jdbcType="DECIMAL"></result>
+        <result property="costStart" column="COST_START" jdbcType="DECIMAL"></result>
+        <result property="costEnd" column="COST_END" jdbcType="DECIMAL"></result>
+        <result property="claimRate" column="CLAIM_RATE" jdbcType="DECIMAL"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

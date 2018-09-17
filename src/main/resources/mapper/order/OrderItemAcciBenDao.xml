@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderItemAcciBenDao">
+
+	<resultMap id="orderItemAcciBenResultMap" type="com.yaic.app.order.dto.domain.OrderItemAcciBenDto">
+        <id property="acciBenId" column="ACCI_BEN_ID" jdbcType="INTEGER"></id>
+        <result property="acciId" column="ACCI_ID" jdbcType="INTEGER"></result>
+        <result property="acciLstId" column="ACCI_LST_ID" jdbcType="INTEGER"></result>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="itemNo" column="ITEM_NO" jdbcType="INTEGER"></result>
+        <result property="customerName" column="CUSTOMER_NAME" jdbcType="VARCHAR"></result>
+        <result property="docType" column="DOC_TYPE" jdbcType="VARCHAR"></result>
+        <result property="docNo" column="DOC_NO" jdbcType="VARCHAR"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"></result>
+        <result property="birthDate" column="BIRTH_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="postCode" column="POST_CODE" jdbcType="VARCHAR"></result>
+        <result property="insuredRelation" column="INSURED_RELATION" jdbcType="VARCHAR"></result>
+        <result property="customerFlag" column="CUSTOMER_FLAG" jdbcType="VARCHAR"></result>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"></result>
+        <result property="phoneNo" column="PHONE_NO" jdbcType="VARCHAR"></result>
+        <result property="benifitPercent" column="BENIFIT_PERCENT" jdbcType="DECIMAL"></result>
+        <result property="benifitFlag" column="BENIFIT_FLAG" jdbcType="CHAR"></result>
+        <result property="benefitDistribution" column="BENEFIT_DISTRIBUTION" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

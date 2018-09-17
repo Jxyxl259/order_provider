@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.VorderDynamicDao">
+
+	<resultMap id="vorderDynamicResultMap" type="com.yaic.app.order.dto.domain.VorderDynamicDto">
+        <result property="dynamicItemId" column="DYNAMIC_ITEM_ID" jdbcType="INTEGER"></result>
+        <result property="orderMainId" column="order_main_id" jdbcType="INTEGER"></result>
+        <result property="riskCode" column="RISK_CODE" jdbcType="VARCHAR"></result>
+        <result property="rationType" column="RATION_TYPE" jdbcType="VARCHAR"></result>
+        <result property="fieldAa" column="FIELD_A_A" jdbcType="VARCHAR"></result>
+        <result property="fieldAb" column="FIELD_A_B" jdbcType="VARCHAR"></result>
+        <result property="fieldAc" column="FIELD_A_C" jdbcType="VARCHAR"></result>
+        <result property="fieldAd" column="FIELD_A_D" jdbcType="VARCHAR"></result>
+        <result property="fieldAe" column="FIELD_A_E" jdbcType="VARCHAR"></result>
+        <result property="fieldAf" column="FIELD_A_F" jdbcType="VARCHAR"></result>
+        <result property="fieldAg" column="FIELD_A_G" jdbcType="VARCHAR"></result>
+        <result property="fieldAh" column="FIELD_A_H" jdbcType="VARCHAR"></result>
+        <result property="fieldAi" column="FIELD_A_I" jdbcType="VARCHAR"></result>
+        <result property="fieldAj" column="FIELD_A_J" jdbcType="VARCHAR"></result>
+        <result property="fieldAk" column="FIELD_A_K" jdbcType="VARCHAR"></result>
+        <result property="fieldAl" column="FIELD_A_L" jdbcType="VARCHAR"></result>
+        <result property="fieldAm" column="FIELD_A_M" jdbcType="VARCHAR"></result>
+        <result property="fieldAn" column="FIELD_A_N" jdbcType="VARCHAR"></result>
+        <result property="fieldAo" column="FIELD_A_O" jdbcType="VARCHAR"></result>
+        <result property="fieldAp" column="FIELD_A_P" jdbcType="VARCHAR"></result>
+        <result property="fieldAq" column="FIELD_A_Q" jdbcType="VARCHAR"></result>
+        <result property="fieldAr" column="FIELD_A_R" jdbcType="VARCHAR"></result>
+        <result property="fieldAs" column="FIELD_A_S" jdbcType="VARCHAR"></result>
+        <result property="fieldAt" column="FIELD_A_T" jdbcType="VARCHAR"></result>
+        <result property="fieldAu" column="FIELD_A_U" jdbcType="VARCHAR"></result>
+        <result property="fieldAv" column="FIELD_A_V" jdbcType="VARCHAR"></result>
+        <result property="fieldAw" column="FIELD_A_W" jdbcType="VARCHAR"></result>
+        <result property="fieldAx" column="FIELD_A_X" jdbcType="VARCHAR"></result>
+        <result property="fieldAy" column="FIELD_A_Y" jdbcType="VARCHAR"></result>
+        <result property="fieldAz" column="FIELD_A_Z" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<!-- 标的重复列表 -->
+	<select id="queryOrderRepeated" parameterType="java.util.HashMap"	resultType="com.yaic.app.order.dto.domain.VorderDynamicDto">
+		select 
+			a1.dynamic_item_id dynamicItemId,
+  			a1.order_main_id orderMainId,
+            a1.risk_code riskCode,
+            a1.field_a_a fieldAa,
+            a1.field_a_b fieldAb,
+            a1.field_a_c fieldAc,
+            a1.field_a_d fieldAd,
+  			a1.field_a_e fieldAe,
+  			a1.field_a_f fieldAf,
+  			a1.field_a_g fieldAg,
+            a1.field_a_h fieldAh,
+            a1.field_a_i fieldAi,
+            a1.field_a_j fieldAj,
+  			a1.field_a_k fieldAk,
+  			a1.field_a_l fieldAl,
+  			a1.field_a_m fieldAm,
+            a1.field_a_n fieldAn,
+            a1.field_a_o fieldAo,
+            a1.field_a_p fieldAp,
+  			a1.field_a_q fieldAq,
+  			a1.field_a_r fieldAr,
+  			a1.field_a_s fieldAs,
+            a1.field_a_t fieldAt,
+            a1.field_a_u fieldAu,
+            a1.field_a_v fieldAv,
+  			a1.field_a_w fieldAw,
+  			a1.field_a_x fieldAx,
+  			a1.field_a_y fieldAy,
+  			a1.field_a_z fieldAz,
+  			a2.policy_no policyNo,
+  			a2.status status
+  		from 
+  			t_order_main a2,
+			t_order_dynamic_item a1
+        where a1.order_main_id = a2.order_main_id
+        AND a1.risk_code = #{riskCode}
+        AND a1.invalid_flag = 0
+		AND a2.invalid_flag = 0
+		<if test="invalidFlag != null">
+		    <choose>  
+                 <when test="invalidFlag==0">
+                 	<![CDATA[
+                 	AND (      (a2.status = '3' AND a2.end_date < #{currentDate} )
+                 			OR (a2.status = '6' AND a2.end_date < #{currentDate} )
+                 			OR (a2.status = '8' AND a2.end_date < #{currentDate} )
+                 		)
+                 	 ]]>
+                 </when>
+                 <when test="invalidFlag==1">
+                 	AND (      (a2.status = '1')
+                 			OR (a2.status = '2')
+                 			OR (a2.status = '3' AND a2.end_date >= #{currentDate} )
+                 			OR (a2.status = '4')
+                 			OR (a2.status = '5')
+                 			OR (a2.status = '6' AND a2.end_date >= #{currentDate} )
+                 			OR (a2.status = '7')
+                 			OR (a2.status = '8' AND a2.end_date >= #{currentDate} )
+                 	    )
+                 </when>
+                 <otherwise>
+                 	AND a2.status in ('3','6','8')
+                 </otherwise>  
+            </choose>
+		</if>
+		<if test="invalidFlag == null">
+			<![CDATA[
+				AND a2.status in ('3','6','8')
+			]]>
+		</if>
+		<if test="fieldAa != null">
+			<![CDATA[AND a1.field_a_a = #{fieldAa}]]>
+		</if>
+		<if test="fieldAb != null">
+			<![CDATA[AND a1.field_a_b = #{fieldAb}]]>
+		</if>
+		<if test="fieldAc != null">
+			<![CDATA[AND a1.field_a_c = #{fieldAc}]]>
+		</if>
+		<if test="fieldAd != null">
+			<![CDATA[AND a1.field_a_d = #{fieldAd}]]>
+		</if>
+		<if test="fieldAe != null">
+			<![CDATA[AND a1.field_a_e = #{fieldAe}]]>
+		</if>
+		<if test="fieldAf != null">
+			<![CDATA[AND a1.field_a_f = #{fieldAf}]]>
+		</if>
+		<if test="fieldAg != null">
+			<![CDATA[AND a1.field_a_g = #{fieldAg}]]>
+		</if>
+		<if test="fieldAh != null">
+			<![CDATA[AND a1.field_a_h = #{fieldAh}]]>
+		</if>
+		<if test="fieldAi != null">
+			<![CDATA[AND a1.field_a_i = #{fieldAi}]]>
+		</if>
+		<if test="fieldAj != null">
+			<![CDATA[AND a1.field_a_j = #{fieldAj}]]>
+		</if>
+		<if test="fieldAk != null">
+			<![CDATA[AND a1.field_a_k = #{fieldAk}]]>
+		</if>
+		<if test="fieldAl != null">
+			<![CDATA[AND a1.field_a_l = #{fieldAl}]]>
+		</if>
+		<if test="fieldAm != null">
+			<![CDATA[AND a1.field_a_m = #{fieldAm}]]>
+		</if>
+		<if test="fieldAn != null">
+			<![CDATA[AND a1.field_a_n = #{fieldAn}]]>
+		</if>
+		<if test="fieldAo != null">
+			<![CDATA[AND a1.field_a_o = #{fieldAo}]]>
+		</if>
+		<if test="fieldAp != null">
+			<![CDATA[AND a1.field_a_p = #{fieldAp}]]>
+		</if>
+		<if test="fieldAq != null">
+			<![CDATA[AND a1.field_a_q = #{fieldAq}]]>
+		</if>
+		<if test="fieldAr != null">
+			<![CDATA[AND a1.field_a_r = #{fieldAr}]]>
+		</if>
+		<if test="fieldAs != null">
+			<![CDATA[AND a1.field_a_s = #{fieldAs}]]>
+		</if>
+		<if test="fieldAt != null">
+			<![CDATA[AND a1.field_a_t = #{fieldAt}]]>
+		</if>
+		<if test="fieldAu != null">
+			<![CDATA[AND a1.field_a_u = #{fieldAu}]]>
+		</if>
+		<if test="fieldAv != null">
+			<![CDATA[AND a1.field_a_v = #{fieldAv}]]>
+		</if>
+		<if test="fieldAw != null">
+			<![CDATA[AND a1.field_a_w = #{fieldAw}]]>
+		</if>
+		<if test="fieldAx != null">
+			<![CDATA[AND a1.field_a_x = #{fieldAx}]]>
+		</if>
+		<if test="fieldAy != null">
+			<![CDATA[AND a1.field_a_y = #{fieldAy}]]>
+		</if>
+		<if test="fieldAz != null">
+			<![CDATA[AND a1.field_a_z = #{fieldAz}]]>
+		</if>
+	</select>
+	
+	<!-- 标的重复投保数 -->
+    <select id="queryOrderRepeatCount" parameterType="java.util.HashMap"  resultType="java.lang.Integer">                                             
+     	select count(*) from 
+			t_order_dynamic_item a1,
+        	t_order_main a2
+     	where a1.order_main_id = a2.order_main_id
+     	AND a1.risk_code = #{riskCode}
+        AND a1.invalid_flag = 0
+		AND a2.invalid_flag = 0
+		<if test="invalidFlag != null">
+		    <choose>  
+                 <when test="invalidFlag==0">
+                 	<![CDATA[
+                 	AND (      (a2.status = '3' AND a2.end_date < #{currentDate} )
+                 			OR (a2.status = '6' AND a2.end_date < #{currentDate} )
+                 			OR (a2.status = '8' AND a2.end_date < #{currentDate} )
+                 		)
+                 	 ]]>
+                 </when>
+                 <when test="invalidFlag==1">
+                 	AND (      (a2.status = '1')
+                 			OR (a2.status = '2')
+                 			OR (a2.status = '3' AND a2.end_date >= #{currentDate})
+                 			OR (a2.status = '4')
+                 			OR (a2.status = '5')
+                 			OR (a2.status = '6' AND a2.end_date >= #{currentDate})
+                 			OR (a2.status = '7')
+                 			OR (a2.status = '8' AND a2.end_date >= #{currentDate})
+                 	    )
+                 </when>
+                 <otherwise>
+                 	AND a2.status in ('3','6','8')
+                 </otherwise>  
+            </choose>
+		</if>
+		<if test="invalidFlag == null">
+			<![CDATA[
+				AND a2.status in ('3','6','8')
+			]]>
+		</if>
+     	<if test="fieldAa != null">
+			<![CDATA[AND a1.field_a_a = #{fieldAa}]]>
+		</if>
+		<if test="fieldAb != null">
+			<![CDATA[AND a1.field_a_b = #{fieldAb}]]>
+		</if>
+		<if test="fieldAc != null">
+			<![CDATA[AND a1.field_a_c = #{fieldAc}]]>
+		</if>
+		<if test="fieldAd != null">
+			<![CDATA[AND a1.field_a_d = #{fieldAd}]]>
+		</if>
+		<if test="fieldAe != null">
+			<![CDATA[AND a1.field_a_e = #{fieldAe}]]>
+		</if>
+		<if test="fieldAf != null">
+			<![CDATA[AND a1.field_a_f = #{fieldAf}]]>
+		</if>
+		<if test="fieldAg != null">
+			<![CDATA[AND a1.field_a_g = #{fieldAg}]]>
+		</if>
+		<if test="fieldAh != null">
+			<![CDATA[AND a1.field_a_h = #{fieldAh}]]>
+		</if>
+		<if test="fieldAi != null">
+			<![CDATA[AND a1.field_a_i = #{fieldAi}]]>
+		</if>
+		<if test="fieldAj != null">
+			<![CDATA[AND a1.field_a_j = #{fieldAj}]]>
+		</if>
+		<if test="fieldAk != null">
+			<![CDATA[AND a1.field_a_k = #{fieldAk}]]>
+		</if>
+		<if test="fieldAl != null">
+			<![CDATA[AND a1.field_a_l = #{fieldAl}]]>
+		</if>
+		<if test="fieldAm != null">
+			<![CDATA[AND a1.field_a_m = #{fieldAm}]]>
+		</if>
+		<if test="fieldAn != null">
+			<![CDATA[AND a1.field_a_n = #{fieldAn}]]>
+		</if>
+		<if test="fieldAo != null">
+			<![CDATA[AND a1.field_a_o = #{fieldAo}]]>
+		</if>
+		<if test="fieldAp != null">
+			<![CDATA[AND a1.field_a_p = #{fieldAp}]]>
+		</if>
+		<if test="fieldAq != null">
+			<![CDATA[AND a1.field_a_q = #{fieldAq}]]>
+		</if>
+		<if test="fieldAr != null">
+			<![CDATA[AND a1.field_a_r = #{fieldAr}]]>
+		</if>
+		<if test="fieldAs != null">
+			<![CDATA[AND a1.field_a_s = #{fieldAs}]]>
+		</if>
+		<if test="fieldAt != null">
+			<![CDATA[AND a1.field_a_t = #{fieldAt}]]>
+		</if>
+		<if test="fieldAu != null">
+			<![CDATA[AND a1.field_a_u = #{fieldAu}]]>
+		</if>
+		<if test="fieldAv != null">
+			<![CDATA[AND a1.field_a_v = #{fieldAv}]]>
+		</if>
+		<if test="fieldAw != null">
+			<![CDATA[AND a1.field_a_w = #{fieldAw}]]>
+		</if>
+		<if test="fieldAx != null">
+			<![CDATA[AND a1.field_a_x = #{fieldAx}]]>
+		</if>
+		<if test="fieldAy != null">
+			<![CDATA[AND a1.field_a_y = #{fieldAy}]]>
+		</if>
+		<if test="fieldAz != null">
+			<![CDATA[AND a1.field_a_z = #{fieldAz}]]>
+		</if>
+    </select>
+</mapper>
+

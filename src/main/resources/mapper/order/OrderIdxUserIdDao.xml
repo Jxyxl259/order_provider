@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderIdxUserIdDao">
+
+	<resultMap id="orderIdxUserIdResultMap" type="com.yaic.app.order.dto.domain.OrderIdxUserIdDto">
+        <id property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></id>
+        <result property="userId" column="USER_ID" jdbcType="BIGINT"></result>
+	</resultMap>
+
+</mapper>
+

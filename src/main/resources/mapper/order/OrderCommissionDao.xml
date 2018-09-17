@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderCommissionDao">
+
+	<resultMap id="orderCommissionResultMap" type="com.yaic.app.order.dto.domain.OrderCommissionDto">
+        <id property="orderId" column="ORDER_ID" jdbcType="INTEGER"></id>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="planCode" column="PLAN_CODE" jdbcType="VARCHAR"></result>
+        <result property="riskCode" column="RISK_CODE" jdbcType="VARCHAR"></result>
+        <result property="commissionType" column="COMMISSION_TYPE" jdbcType="VARCHAR"></result>
+        <result property="sharerType" column="SHARER_TYPE" jdbcType="VARCHAR"></result>
+        <result property="sharerCode" column="SHARER_CODE" jdbcType="VARCHAR"></result>
+        <result property="currency" column="CURRENCY" jdbcType="VARCHAR"></result>
+        <result property="commissionPercent" column="COMMISSION_PERCENT" jdbcType="DECIMAL"></result>
+        <result property="commissionGrossPercent" column="COMMISSION_GROSS_PERCENT" jdbcType="DECIMAL"></result>
+        <result property="commissionNetPercent" column="COMMISSION_NET_PERCENT" jdbcType="DECIMAL"></result>
+        <result property="orgCommissionAmount" column="ORG_COMMISSION_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="commissionAmount" column="COMMISSION_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="mainSubAccountInd" column="MAIN_SUB_ACCOUNT_IND" jdbcType="VARCHAR"></result>
+        <result property="middleCostInd" column="MIDDLE_COST_IND" jdbcType="VARCHAR"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="modifyInd" column="MODIFY_IND" jdbcType="VARCHAR"></result>
+        <result property="serialNo" column="SERIAL_NO" jdbcType="INTEGER"></result>
+        <result property="itemNo" column="ITEM_NO" jdbcType="INTEGER"></result>
+        <result property="maxCommissionPercent" column="MAX_COMMISSION_PERCENT" jdbcType="DECIMAL"></result>
+        <result property="ruleId" column="RULE_ID" jdbcType="VARCHAR"></result>
+        <result property="salesState" column="SALES_STATE" jdbcType="VARCHAR"></result>
+        <result property="branchCommissionRate" column="BRANCH_COMMISSION_RATE" jdbcType="DECIMAL"></result>
+        <result property="centerCommissionRate" column="CENTER_COMMISSION_RATE" jdbcType="DECIMAL"></result>
+        <result property="topCommission" column="TOP_COMMISSION" jdbcType="DECIMAL"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

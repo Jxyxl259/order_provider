@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderMainDao">
+
+	<resultMap id="orderMainResultMap" type="com.yaic.app.order.dto.domain.OrderMainDto">
+        <id property="orderMainId" column="order_main_id" jdbcType="INTEGER"></id>
+        <result property="orderNo" column="ORDER_NO" jdbcType="BIGINT"></result>
+        <result property="orderStep" column="ORDER_STEP" jdbcType="VARCHAR"></result>
+        <result property="orderDate" column="ORDER_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="businessSourceId" column="BUSINESS_SOURCE_ID" jdbcType="VARCHAR"></result>
+        <result property="proposalNo" column="PROPOSAL_NO" jdbcType="VARCHAR"></result>
+        <result property="orderCity" column="ORDER_CITY" jdbcType="VARCHAR"></result>
+        <result property="agrtCode" column="AGRT_CODE" jdbcType="VARCHAR"></result>       
+        <result property="policyNo" column="POLICY_NO" jdbcType="VARCHAR"></result>
+        <result property="othPolicyNo" column="OTH_POLICY_NO" jdbcType="VARCHAR"></result>
+        <result property="startDate" column="START_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="endDate" column="END_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="status" column="STATUS" jdbcType="VARCHAR"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="argueSolution" column="ARGUE_SOLUTION" jdbcType="VARCHAR"></result>
+        <result property="lowestPremium" column="LOWEST_PREMIUM" jdbcType="VARCHAR"></result>
+        <result property="renewalNo" column="RENEWAL_NO" jdbcType="VARCHAR"></result>
+        <result property="replacedPolicyNo" column="REPLACED_POLICY_NO" jdbcType="VARCHAR"></result>
+        <result property="renewInd" column="RENEW_IND" jdbcType="VARCHAR"></result>
+        <result property="renewedInd" column="RENEWED_IND" jdbcType="VARCHAR"></result>
+        <result property="underwriterInd" column="UNDERWRITER_IND" jdbcType="VARCHAR"></result>
+	</resultMap>
+	
+	<insert id="addOrderMain" parameterType="com.yaic.app.order.dto.domain.OrderMainDto" useGeneratedKeys="true" keyProperty="orderMainId">
+		insert into t_order_main 
+		   (ORDER_NO,
+		    ORDER_STEP,
+		    ORDER_DATE,
+		    BUSINESS_SOURCE_ID,
+		    PROPOSAL_NO,
+		    ORDER_CITY,
+		    POLICY_NO,
+		    START_DATE,
+		    END_DATE,
+		    STATUS,
+		    CREATED_USER,
+			CREATED_DATE,
+			UPDATED_USER,
+			UPDATED_DATE,
+			INVALID_FLAG,
+			ARGUE_SOLUTION,
+			UNDERWRITER_IND
+		   )
+		values 
+		   (#{orderNo,jdbcType=BIGINT},
+			#{orderStep,jdbcType=VARCHAR},
+			#{orderDate,jdbcType=TIMESTAMP},
+			#{businessSourceId,jdbcType=VARCHAR},
+			#{proposalNo,jdbcType=VARCHAR},
+			#{orderCity,jdbcType=VARCHAR},
+			#{policyNo,jdbcType=VARCHAR},
+			#{startDate,jdbcType=TIMESTAMP},
+			#{endDate,jdbcType=TIMESTAMP},
+			#{status,jdbcType=VARCHAR},
+			#{createdUser,jdbcType=VARCHAR},
+			#{createdDate,jdbcType=TIMESTAMP},
+			#{updatedUser,jdbcType=VARCHAR},
+			#{updatedDate,jdbcType=TIMESTAMP},
+			#{invalidFlag,jdbcType=TINYINT},
+			#{argueSolution,jdbcType=VARCHAR},
+			#{underwriterInd,jdbcType=VARCHAR}
+		   )
+	</insert>
+	
+	<!-- 公用查询sql：AND a1.order_status = '2'-->
+    <sql id="PolicyInfoQuery">
+       <![CDATA[
+    	SELECT
+    		distinct
+    	    a1.user_id userId,
+  			a1.order_code orderCode,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' THEN '1'
+                ELSE a3.order_main_id END orderMainId,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' THEN a3.associated_no
+                ELSE a3.policy_no END policyNo,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' THEN '9999'
+                ELSE a2.goods_id END riskCode,
+            a3.product_name riskName,
+            a3.start_date startDate,
+            a3.end_date endDate,
+            a1.add_time addTime,
+            CASE
+                WHEN a3.associated_no IS NOT NULL AND a3.associated_no <> '' 
+                THEN
+                (SELECT 
+    				SUM(k.premium)
+				FROM
+    				t_order_main t,
+   				 t_order_itemkind k
+				WHERE
+    				t.order_code = k.order_code
+        				AND t.order_main_id = k.order_main_id
+        				AND t.associated_no = a3.associated_no)
+                ELSE a2.goods_price END goodsAmount,
+            a1.referer referer,
+            a3.status status,
+            CASE
+              WHEN a3.status = '5' THEN '0'
+              WHEN a3.status = '3' AND a3.end_date < #{currentDate} THEN '0'
+              WHEN a3.status = '6' AND a3.end_date < #{currentDate} THEN '0'
+              WHEN a3.status = '8' AND a3.end_date < #{currentDate} THEN '0'
+              ELSE '1' END invalidFlag
+          FROM
+          	t_shop_order_info a1,
+          	t_shop_order_goods a2,
+          	t_order_main a3
+          WHERE a1.order_code = a2.order_code
+            AND a2.goods_no = a3.order_main_id
+            AND a1.invalid_flag = 0
+			AND a2.invalid_flag = 0
+			AND a3.invalid_flag = 0
+            
+            AND a1.user_id = #{userId}
+        ]]>
+		<if test="invalidFlag != null">
+		    <choose>  
+                 <when test="invalidFlag==0">
+                 	<![CDATA[
+                 	AND (      (a3.status = '5')
+                 			OR (a3.status = '3' AND (a3.end_date < #{currentDate} ))
+                 			OR (a3.status = '6' AND (a3.end_date < #{currentDate} ))
+                 			OR (a3.status = '8' AND (a3.end_date < #{currentDate} ))
+                 		)
+                 	 ]]>
+                 </when>
+                 <when test="invalidFlag==1">
+                 	AND (      (a3.status = '3' AND a3.end_date >= #{currentDate})
+                 			OR (a3.status = '6' AND a3.end_date >= #{currentDate})
+                 			OR (a3.status = '7')
+                 			OR (a3.status = '8' AND a3.end_date >= #{currentDate})
+                 	    )
+                 </when>
+                 <otherwise>
+                 	AND a3.status in ('3','5','6','7','8')
+                 </otherwise>  
+            </choose>
+		</if>
+		<if test="invalidFlag == null">
+			<![CDATA[
+				AND a3.status in ('3','5','6','7','8')
+			]]>
+		</if>
+		
+		<if test="actionType == null">
+			<if test="objectCondition != null">
+		  		<![CDATA[
+		   			${objectCondition}
+		  		]]>
+			</if>
+		</if>
+    </sql>
+	
+	<!--查询记录列表-->
+	<select id="queryPolicyList" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.custom.PolicyInfo">
+		select union_tb.* from (
+			<include refid="PolicyInfoQuery" />
+		) union_tb LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+		
+    <!--查询记录数-->
+    <select id="queryPolicyCount" parameterType="java.util.HashMap"  resultType="java.lang.Integer">                                             
+     	select count(*) from (
+        	<include refid="PolicyInfoQuery" />
+        ) union_tb
+    </select>
+   
+    <!--查询记录列表(没有userId)-->
+	<select id="queryPolicyUnionAllList" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.custom.PolicyInfo">
+		select union_tb.* from (
+			<include refid="PolicyInfoUnionAllQuery" />
+		) union_tb LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
+	<!--查询记录列表非分页(没有userId)-->
+	<select id="queryPolicyUnionAllListNoPage" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.custom.PolicyInfo">
+		<include refid="PolicyInfoUnionAllQuery" />
+	</select>
+	
+	<!--查询记录数(没有userId)-->
+    <select id="queryPolicyUnionAllCount" parameterType="java.util.HashMap"  resultType="java.lang.Integer">                                             
+     	select count(*) from (
+        	<include refid="PolicyInfoUnionAllQuery" />
+        ) union_tb
+    </select>
+	
+	<!-- 公用查询sql：AND a1.order_status = '2'-->
+    <sql id="PolicyInfoUnionAllQuery">
+      <![CDATA[
+    	SELECT
+		    distinct
+            a1.user_id userId,
+            a1.order_code orderCode,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' AND #{riskCode}='9999' THEN '1'
+                ELSE a3.order_main_id END orderMainId,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' AND #{riskCode}='9999' THEN a3.associated_no
+                ELSE a3.policy_no END policyNo,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' AND #{riskCode}='9999' THEN '9999'
+                ELSE a2.goods_id END riskCode,
+            a3.product_name riskName,
+            a3.start_date startDate,
+            a3.end_date endDate,
+            a1.add_time addTime,
+            CASE
+                WHEN a3.associated_no is not null AND a3.associated_no <> '' 
+                THEN a1.goods_amount
+                ELSE a2.goods_price END goodsAmount,
+            a1.referer referer,
+            a3.status status,
+            CASE 
+			  WHEN a3.status = '5' THEN '0'
+              WHEN a3.status = '3' AND a3.end_date < #{currentDate} THEN '0'
+              WHEN a3.status = '6' AND a3.end_date < #{currentDate} THEN '0'
+              WHEN a3.status = '8' AND a3.end_date < #{currentDate} THEN '0'
+              ELSE '1' END invalidFlag
+          FROM
+          	t_shop_order_info a1,
+          	t_shop_order_goods a2,
+          	t_order_main a3,
+            t_order_customer a4
+          WHERE
+          	a1.order_code = a2.order_code
+          AND a2.goods_no = a3.order_main_id
+          and a2.goods_no = a4.order_main_id
+          
+          and a1.invalid_flag = 0
+          and a2.invalid_flag = 0
+          and a3.invalid_flag = 0
+          and a4.invalid_flag = 0
+        ]]>
+		<if test="policyNo != null">
+			<![CDATA[
+				AND a3.policy_no = #{policyNo}
+			]]>
+		</if>
+		<if test="associatedNo != null">
+			<![CDATA[
+				AND a3.associated_no = #{associatedNo}
+			]]>
+		</if>
+        <if test="docType != null">
+			<![CDATA[
+				AND a4.doc_Type = #{docType}
+			]]>
+		</if>
+		<if test="docNo != null">
+			<![CDATA[
+				AND a4.doc_No = #{docNo}
+			]]>
+		</if>
+		<if test="phoneNo != null">
+			<![CDATA[
+				AND a4.phone_No = #{phoneNo}
+			]]>
+		</if>
+		<if test="customerName != null">
+			<![CDATA[
+				AND a4.customer_Name = #{customerName}
+			]]>
+		</if>
+		<if test="invalidFlag != null">
+		    <choose>  
+                 <when test="invalidFlag==0">
+					<![CDATA[
+                 	AND (      (a3.status = '5')
+                 			OR (a3.status = '3' AND (a3.end_date < #{currentDate} ))
+                 			OR (a3.status = '6' AND (a3.end_date < #{currentDate} ))
+                 			OR (a3.status = '8' AND (a3.end_date < #{currentDate} ))
+                 		)
+                 	 ]]>
+                 </when>
+                 <when test="invalidFlag==1">
+                 	AND (      (a3.status = '3' AND a3.end_date >= #{currentDate})
+                 			OR (a3.status = '6' AND a3.end_date >= #{currentDate})
+                 			OR (a3.status = '7')
+                 			OR (a3.status = '8' AND a3.end_date >= #{currentDate})
+                 	    )
+                 </when>
+                 <otherwise>
+                 	AND a3.status in ('3','5','6','7','8')
+                 </otherwise>  
+            </choose>
+		</if>
+		<if test="invalidFlag == null">
+			<![CDATA[
+				AND a3.status in ('3','5','6','7','8')
+			]]>
+		</if>
+ 
+		<if test="actionType == null">
+			<if test="objectCondition != null">
+		  		<![CDATA[
+		   			${objectCondition}
+		  		]]>
+			</if>
+		</if>
+    </sql>
+
+	<!--Add by Qu Dihuai for ITPRO-721 start-->
+	<!--三官专用, 根据证件号码和证件类型查询保单-->
+	<select id="queryPoliciesByDocNoAndType" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.custom.PolicyInfo">
+		select union_tb.* from (
+			<include refid="PoliciesInfoQuery" />
+		) union_tb LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
+	<sql id="PoliciesInfoQuery">
+		<![CDATA[
+		SELECT DISTINCT
+				t1.user_id userId,
+				t1.order_code orderCode,
+			CASE
+				WHEN t3.associated_no IS NOT NULL AND t3.associated_no <> '' 
+				THEN '1'
+				ELSE t3.order_main_id
+			END orderMainId,
+			CASE
+				WHEN t3.associated_no IS NOT NULL AND t3.associated_no <> '' 
+				THEN t3.associated_no
+				ELSE t3.policy_no
+			END policyNo,
+			CASE
+				WHEN t3.associated_no IS NOT NULL AND t3.associated_no <> '' 
+				THEN '9999'
+				ELSE t2.goods_id
+			END riskCode,
+			t3.product_name riskName,
+			t3.start_date startDate,
+			t3.end_date endDate,
+			t3.agrt_code agrtCode,
+			t1.add_time addTime,
+			CASE
+				WHEN t3.associated_no IS NOT NULL AND t3.associated_no <> '' 
+				THEN t1.goods_amount
+				ELSE t2.goods_price
+			END goodsAmount,
+			t1.referer referer,
+			t3.status status,
+			CASE
+				WHEN t3.status = '5'
+				THEN '0'
+				WHEN t3.status = '3' AND t3.end_date < #{currentDate}
+				THEN '0'
+				WHEN t3.status = '6' AND t3.end_date < #{currentDate}
+				THEN '0'
+				WHEN t3.status = '8' AND t3.end_date < #{currentDate}
+				THEN '0'
+				ELSE '1'
+			END invalidFlag
+		FROM
+			t_shop_order_info t1
+			LEFT JOIN
+			t_shop_order_goods t2 ON t1.order_code = t2.order_code
+			RIGHT JOIN
+			t_order_main t3 ON t2.goods_no = t3.order_main_id
+			RIGHT JOIN
+			(
+				(
+					SELECT
+						tc.order_main_id
+					FROM
+						t_order_customer AS tc
+					WHERE
+						tc.doc_no = #{docNo} AND tc.doc_type = #{docType} AND tc.customer_name = #{docName}
+				)
+				UNION
+				(
+					SELECT
+						ta.order_main_id
+					FROM
+						t_order_item_acci_lst AS ta
+					WHERE
+							ta.doc_no = #{docNo} AND ta.doc_type = #{docType} AND ta.customer_name = #{docName}
+				)
+			) t4 ON t4.order_main_id = t2.goods_no
+		WHERE
+			t3.data_source IN ('G','W')
+		]]>
+		<if test="invalidFlag != null">
+			<choose>
+				<when test="invalidFlag==0">
+						<![CDATA[
+						AND ((t3.status = '5')
+								OR (t3.status = '3' AND (t3.end_date < #{currentDate} ))
+								OR (t3.status = '6' AND (t3.end_date < #{currentDate} ))
+								OR (t3.status = '8' AND (t3.end_date < #{currentDate} ))
+							)
+						]]>
+				</when>
+				<when test="invalidFlag==1">
+					AND ( (t3.status = '3' AND t3.end_date >= #{currentDate})
+					OR (t3.status = '6' AND t3.end_date >= #{currentDate})
+					OR (t3.status = '7')
+					OR (t3.status = '8' AND t3.end_date >= #{currentDate})
+					)
+				</when>
+				<otherwise>
+					AND t3.status in ('3','5','6','7','8')
+				</otherwise>
+			</choose>
+		</if>
+		<if test="invalidFlag == null">
+				<![CDATA[
+					AND t3.status in ('3','5','6','7','8')
+				]]>
+		</if>
+	</sql>
+	<!--Add by Qu Dihuai for ITPRO-721 end-->
+	
+	<!--Add by Li PengFei for  start-->
+	<!--三官专用, 根据证件号码和证件类型查询保单-->
+	<select id="queryProdToPolicyList" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.custom.ProdToPolicyInfo">
+		select union_tb.* from (
+			<include refid="QueryProdToPolicy" />
+		) union_tb LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
+	<sql id="QueryProdToPolicy">
+		<![CDATA[
+		SELECT DISTINCT
+			t.order_code orderCode,
+			t.associated_no associatedNo,
+			t.policy_no policyNo,
+			t.oth_policy_no othPolicyNo,
+			t.product_name productName,
+			t.start_date startDate,
+			t.end_date endDate,
+			t.agrt_code agrtCode,
+			t.project_code projectCode,
+			t.data_source dataSource,
+			t.status status
+		FROM
+			t_order_main t
+		WHERE
+			t.INVALID_FLAG = 0
+			AND t.policy_no is not null
+			AND t.start_date <= #{orderDate}
+			AND t.end_date >= #{orderDate}
+		]]>
+		<if test="agrtCode != null">
+			<![CDATA[
+				AND t.agrt_code = #{agrtCode}
+			]]>
+		</if>
+		<if test="projectCode != null">
+			<![CDATA[
+				AND t.project_code = #{projectCode}
+			]]>
+		</if>
+	</sql>
+	<!--Add by Li PengFei for  end-->
+</mapper>
+

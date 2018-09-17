@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderPropertyDao">
+
+	<resultMap id="orderPropertyResultMap" type="com.yaic.app.order.dto.domain.OrderPropertyDto">
+        <id property="propertyId" column="PROPERTY_ID" jdbcType="INTEGER"></id>
+        <result property="orderMainId" column="order_main_id" jdbcType="INTEGER"></result>
+        <result property="itemProvinceCode" column="ITEM_PROVINCE_CODE" jdbcType="VARCHAR"></result>
+        <result property="itemProvinceCname" column="ITEM_PROVINCE_CNAME" jdbcType="VARCHAR"></result>
+        <result property="itemCityCode" column="ITEM_CITY_CODE" jdbcType="VARCHAR"></result>
+        <result property="itemCityCname" column="ITEM_CITY_CNAME" jdbcType="VARCHAR"></result>
+        <result property="itemDistrictCode" column="ITEM_DISTRICT_CODE" jdbcType="VARCHAR"></result>
+        <result property="itemDistrictCname" column="ITEM_DISTRICT_CNAME" jdbcType="VARCHAR"></result>
+        <result property="situation" column="SITUATION" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+	
+	<select id="queryPropertyPolicyCount" parameterType="com.yaic.app.order.dto.custom.PropertyPolicyDto"  resultType="java.lang.Integer">                                             
+     	SELECT
+			count(*)
+		FROM
+			(SELECT
+			 a1.order_code AS order_code,
+			 a1.user_id AS user_id,
+			 a1.referer AS referer,
+			 a2.goods_id AS goods_id,
+			 a3.agrt_code AS agrt_code,
+			 a3.project_code AS project_code,
+			 a3.proposal_no AS proposal_no,
+			 a3.policy_no AS policy_no,
+			 a4.item_province_code AS item_province_code,
+			 a4.item_province_cname AS item_province_cname,
+			 a4.item_city_code AS item_city_code,
+			 a4.item_city_cname AS item_city_cname,
+			 a4.item_district_code AS item_district_code,
+			 a4.item_district_cname AS item_district_cname,
+			 a4.situation AS situation
+		FROM
+			(
+				(
+					(
+						t_shop_order_info a1
+						JOIN t_shop_order_goods a2
+					)
+					JOIN t_order_main a3
+				)
+				JOIN t_order_property a4
+			)
+		WHERE
+			(
+				(
+					 a1.order_code = a2.order_code
+				)
+				AND (
+					a2.goods_no = a3.order_main_id
+				)
+				AND (
+					a3.order_main_id = a4.order_main_id
+				)
+				AND (
+					a3.status IN ('3', '6', '7', '8')
+				)
+				AND (a3.end_date > now())
+				AND (a1.invalid_flag = 0)
+				AND (a2.invalid_flag = 0)
+				AND (a3.invalid_flag = 0)
+				AND (a4.invalid_flag = 0)
+			)) v
+		<where>
+		    1=1
+			<if test="orderCode != null and orderCode != '' ">
+			AND	v.order_code in (#{orderCode})
+			</if>
+			<if test="userId != null and userId != '' ">
+			AND	v.user_id = #{userId}
+			</if>
+			<if test="referer != null and referer != '' ">
+			AND	v.referer = #{referer}
+			</if>
+			<if test="goodsId != null and goodsId != '' ">
+			AND	v.goods_id = #{goodsId}
+			</if>
+			<if test="agrtCode != null and agrtCode != '' ">
+			AND	v.agrt_code = #{agrtCode}
+			</if>
+			<if test="projectCode != null and projectCode != '' ">
+			AND	v.project_code = #{projectCode}
+			</if>
+			<if test="proposalNo != null and proposalNo != '' ">
+			AND	v.proposal_no = #{proposalNo}
+			</if>
+			<if test="policyNo != null and policyNo != '' ">
+			AND	v.policy_no = #{policyNo}
+			</if>
+			<if test="itemProvinceCode != null and itemProvinceCode != '' ">
+			AND	v.item_province_code = #{itemProvinceCode}
+			</if>
+			<if test="itemProvinceCname != null and itemProvinceCname != '' ">
+			AND	v.item_province_cname = #{itemProvinceCname}
+			</if>
+			<if test="itemCityCode != null and itemCityCode != '' ">
+			AND	v.item_city_code = #{itemCityCode}
+			</if>
+			<if test="itemCityCname != null and itemCityCname != '' ">
+			AND	v.item_city_cname = #{itemCityCname}
+			</if>
+			<if test="itemDistrictCode != null and itemDistrictCode != '' ">
+			AND	v.item_district_code = #{itemDistrictCode}
+			</if>
+			<if test="itemDistrictCname != null and itemDistrictCname != '' ">
+			AND	v.item_district_cname = #{itemDistrictCname}
+			</if>
+			<if test="situation != null and situation != '' ">
+			AND	v.situation = #{situation}
+			</if>
+		</where>
+    </select>
+
+</mapper>
+

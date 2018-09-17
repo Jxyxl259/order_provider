@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.syn.dao.SynPolicyFilterCfgDao">
+
+	<resultMap id="synPolicyFilterCfgResultMap" type="com.yaic.app.syn.dto.domain.SynPolicyFilterCfgDto">
+        <id property="filterCfgId" column="filter_cfg_id" jdbcType="VARCHAR"></id>
+        <result property="agrtCode" column="agrt_code" jdbcType="VARCHAR"></result>
+        <result property="remark" column="remark" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="invalid_flag" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="created_user" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="updated_user" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="updated_date" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<sql id="synPolicyFilterCfgAliasColumns">
+		g.filter_cfg_id AS filterCfgId ,
+		g.agrt_code AS agrtCode ,
+		g.remark AS remark ,
+		g.invalid_flag AS invalidFlag ,
+		g.created_user AS createdUser ,
+		g.created_date AS createdDate ,
+		g.updated_user AS updatedUser ,
+		g.updated_date AS updatedDate 
+	</sql>
+
+	<select id="findPageInfo" resultType="com.yaic.app.syn.dto.domain.SynPolicyFilterCfgDto">
+		SELECT
+			g.filter_cfg_id AS filterCfgId ,
+			g.agrt_code AS agrtCode ,
+			g.remark AS remark ,
+			g.invalid_flag AS invalidFlag ,
+			g.created_user AS createdUser ,
+			g.created_date AS createdDate ,
+			g.updated_user AS updatedUser ,
+			g.updated_date AS updatedDate 
+		FROM
+			t_syn_policy_filter_cfg g
+		<where>
+			1=1
+			<if test="filterCfgId != null and filterCfgId != '' ">
+			AND	g.filter_cfg_id = #{filterCfgId}
+			</if>
+			<if test="agrtCode != null and agrtCode != '' ">
+			AND	g.agrt_code = #{agrtCode}
+			</if>
+			<if test="remark != null and remark != '' ">
+			AND	g.remark = #{remark}
+			</if>
+			<if test="invalidFlag != null and invalidFlag != '' ">
+			AND	g.invalid_flag = #{invalidFlag}
+			</if>
+			<if test="createdUser != null and createdUser != '' ">
+			AND	g.created_user = #{createdUser}
+			</if>
+			<if test="createdDate != null and createdDate != '' ">
+			AND	g.created_date = #{createdDate}
+			</if>
+			<if test="updatedUser != null and updatedUser != '' ">
+			AND	g.updated_user = #{updatedUser}
+			</if>
+			<if test="updatedDate != null and updatedDate != '' ">
+			AND	g.updated_date = #{updatedDate}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yaic.app.common.dao.AttachmentDao">
+    <resultMap id="attachmentResultMap" type="com.yaic.app.common.dto.domain.AttachmentDto">
+        <id property="attachmentId" column="ATTACHMENT_ID" jdbcType="VARCHAR"></id>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="createdBy" column="CREATED_BY" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedBy" column="UPDATED_BY" jdbcType="VARCHAR"></result>
+        <result property="attachmentGroupId" column="ATTACHMENT_GROUP_ID" jdbcType="VARCHAR"></result>
+        <result property="attachmentName" column="ATTACHMENT_NAME" jdbcType="VARCHAR"></result>
+        <result property="attachmentPath" column="ATTACHMENT_PATH" jdbcType="VARCHAR"></result>
+        <result property="attachmentSource" column="ATTACHMENT_SOURCE" jdbcType="VARCHAR"></result>
+        <result property="displayOrder" column="DISPLAY_ORDER" jdbcType="NUMERIC"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"></result>
+    </resultMap>
+</mapper>

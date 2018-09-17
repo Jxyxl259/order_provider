@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.ShopOrderInfoDao">
+
+	<resultMap id="shopOrderInfoResultMap" type="com.yaic.app.order.dto.domain.ShopOrderInfoDto">
+        <id property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></id>
+        <result property="userId" column="USER_ID" jdbcType="BIGINT"></result>
+        <result property="orderStatus" column="ORDER_STATUS" jdbcType="VARCHAR"></result>
+        <result property="invFlag" column="INV_FLAG" jdbcType="TINYINT"></result>
+        <result property="invType" column="INV_TYPE" jdbcType="VARCHAR"></result>
+        <result property="invPayee" column="INV_PAYEE" jdbcType="VARCHAR"></result>
+        <result property="invContent" column="INV_CONTENT" jdbcType="VARCHAR"></result>
+        <result property="goodsAmount" column="GOODS_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="orderAmount" column="ORDER_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="referer" column="REFERER" jdbcType="VARCHAR"></result>
+        <result property="addTime" column="ADD_TIME" jdbcType="TIMESTAMP"></result>
+        <result property="confirmTime" column="CONFIRM_TIME" jdbcType="TIMESTAMP"></result>
+        <result property="discount" column="DISCOUNT" jdbcType="DECIMAL"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+	</resultMap>
+	
+	<!-- 公用查询sql-->
+    <sql id="ShopOrderInfoQuery">
+    	SELECT
+        	order_Code,
+        	user_Id,
+        	order_Status,
+        	inv_Flag,
+        	inv_Type,
+        	inv_Payee,
+        	inv_Content,
+        	goods_Amount,
+        	order_Amount,
+        	referer,
+        	add_Time,
+        	confirm_Time,
+        	discount,
+        	created_User,
+        	created_Date,
+        	updated_User,
+        	updated_Date,
+        	invalid_Flag
+        FROM
+		t_shop_order_info
+		WHERE 1=1 and user_Id = #{userId}
+		<if test="orderStartDate != null">
+		   <![CDATA[
+		   	AND add_Time >= #{orderStartDate}
+		   ]]>
+		</if>
+		<if test="orderEndDate != null">
+		  <![CDATA[
+		   	AND add_Time < #{orderEndDate}
+		  ]]>
+		</if>
+		<if test="orderStatus != null">
+			<choose>  
+                 <when test="orderStatus==5">AND order_Status in ('0','1')</when>
+                 <when test="orderStatus==6">AND order_Status in ('3','4')</when>
+                 <when test="orderStatus==7">AND order_Status in ('0','1','3','4')</when>
+                 <otherwise>AND order_Status = #{orderStatus} </otherwise>  
+            </choose>
+		</if>
+		<if test="payStatus != null">
+		   	AND EXISTS (SELECT 1 FROM 
+		   						 t_shop_order_payinfo g 
+		   						 WHERE g.order_Code = order_Code 
+		   						   AND g.invalid_Flag = 0
+		   						   <choose>  
+                						<when test="payStatus==3">AND g.pay_status in ('0','2')</when>
+                						<otherwise>AND g.pay_status = #{payStatus} </otherwise>  
+            					   </choose>
+		   				)
+		</if>
+		
+		<if test="actionType == null">
+			<if test="objectCondition != null">
+		  		<![CDATA[
+		   			${objectCondition}
+		  		]]>
+			</if>
+		</if>
+    </sql>
+	
+	<!--查询记录列表-->
+	<select id="queryOrderList" parameterType="java.util.HashMap" resultMap="shopOrderInfoResultMap">
+		select union_tb.* from (
+			<include refid="ShopOrderInfoQuery" />
+		) union_tb LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+		
+	<!--查询记录数-->
+   <select id="queryOrderCount" parameterType="java.util.HashMap"  resultType="java.lang.Integer">                                             
+     	select count(*) from (
+        	<include refid="ShopOrderInfoQuery" />
+        ) union_tb
+   </select>
+
+</mapper>
+

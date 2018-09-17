@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderCoinsLiabDao">
+
+	<resultMap id="orderCoinsLiabResultMap" type="com.yaic.app.order.dto.domain.OrderCoinsLiabDto">
+        <id property="coinsLiabId" column="COINS_LIAB_ID" jdbcType="INTEGER"></id>
+        <id property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></id>
+        <result property="orderMainId" column="ORDER_MAIN_ID" jdbcType="BIGINT"></result>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="coinsCode" column="COINS_CODE" jdbcType="VARCHAR"></result>
+        <result property="serialNo" column="SERIAL_NO" jdbcType="INTEGER"></result>
+        <result property="liabCode" column="LIAB_CODE" jdbcType="VARCHAR"></result>
+        <result property="liabName" column="LIAB_NAME" jdbcType="VARCHAR"></result>
+        <result property="sumInsured" column="SUM_INSURED" jdbcType="DECIMAL"></result>
+        <result property="grossPremium" column="GROSS_PREMIUM" jdbcType="DECIMAL"></result>
+        <result property="coinsRate" column="COINS_RATE" jdbcType="DECIMAL"></result>
+        <result property="liabDesc" column="LIAB_DESC" jdbcType="VARCHAR"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

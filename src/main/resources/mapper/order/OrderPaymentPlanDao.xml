@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderPaymentPlanDao">
+
+	<resultMap id="orderPaymentPlanResultMap" type="com.yaic.app.order.dto.domain.OrderPaymentPlanDto">
+        <id property="paymentPlanId" column="PAYMENT_PLAN_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="planDate" column="PLAN_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="payeeName" column="PAYEE_NAME" jdbcType="VARCHAR"></result>
+        <result property="planFee" column="PLAN_FEE" jdbcType="DECIMAL"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

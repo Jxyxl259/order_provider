@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.syn.dao.SynPolicyDtlDao">
+
+	<resultMap id="synPolicyDtlResultMap" type="com.yaic.app.syn.dto.domain.SynPolicyDtlDto">
+        <id property="orderMainId" column="order_main_id" jdbcType="BIGINT"></id>
+        <result property="orderCode" column="order_code" jdbcType="BIGINT"></result>
+        <result property="dealStatus" column="deal_status" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="invalid_flag" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="created_user" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="updated_user" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="updated_date" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<sql id="synPolicyDtlAliasColumns">
+		g.order_main_id AS orderMainId ,
+		g.order_code AS orderCode ,
+		g.deal_status AS dealStatus ,
+		g.invalid_flag AS invalidFlag ,
+		g.created_user AS createdUser ,
+		g.created_date AS createdDate ,
+		g.updated_user AS updatedUser ,
+		g.updated_date AS updatedDate 
+	</sql>
+
+	<select id="findPageInfo" resultType="com.yaic.app.syn.dto.domain.SynPolicyDtlDto">
+		SELECT
+			g.order_main_id AS orderMainId ,
+			g.order_code AS orderCode ,
+			g.deal_status AS dealStatus ,
+			g.invalid_flag AS invalidFlag ,
+			g.created_user AS createdUser ,
+			g.created_date AS createdDate ,
+			g.updated_user AS updatedUser ,
+			g.updated_date AS updatedDate 
+		FROM
+			t_syn_policy_dtl g
+		<where>
+			1=1
+			<if test="orderMainId != null and orderMainId != '' ">
+			AND	g.order_main_id = #{orderMainId}
+			</if>
+			<if test="orderCode != null and orderCode != '' ">
+			AND	g.order_code = #{orderCode}
+			</if>
+			<if test="dealStatus != null and dealStatus != '' ">
+			AND	g.deal_status = #{dealStatus}
+			</if>
+			<if test="invalidFlag != null and invalidFlag != '' ">
+			AND	g.invalid_flag = #{invalidFlag}
+			</if>
+			<if test="createdUser != null and createdUser != '' ">
+			AND	g.created_user = #{createdUser}
+			</if>
+			<if test="createdDate != null and createdDate != '' ">
+			AND	g.created_date = #{createdDate}
+			</if>
+			<if test="updatedUser != null and updatedUser != '' ">
+			AND	g.updated_user = #{updatedUser}
+			</if>
+			<if test="updatedDate != null and updatedDate != '' ">
+			AND	g.updated_date = #{updatedDate}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 删除N天前任务数据 -->
+	<delete id="deleteSynPolicyDtlData" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDtlDto"> 
+    	DELETE
+		FROM
+			t_syn_policy_dtl
+		WHERE
+			order_code IN (
+				SELECT
+					n.order_code
+				FROM
+					(
+						SELECT
+							a.order_code
+						FROM
+							t_syn_policy a
+						WHERE
+							<![CDATA[
+							a.updated_date < DATE_ADD(#{nowTime}, INTERVAL - #{dealBeforeDate} DAY)
+							]]>
+						AND a.deal_status = '2'
+					) AS n
+			)
+		AND deal_status = '3'
+		LIMIT #{limitCount}
+	</delete>
+
+</mapper>

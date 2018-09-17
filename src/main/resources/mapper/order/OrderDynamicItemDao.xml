@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderDynamicItemDao">
+
+	<resultMap id="orderDynamicItemResultMap" type="com.yaic.app.order.dto.domain.OrderDynamicItemDto">
+        <id property="dynamicItemId" column="DYNAMIC_ITEM_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="planCode" column="PLAN_CODE" jdbcType="VARCHAR"></result>
+        <result property="riskCode" column="RISK_CODE" jdbcType="VARCHAR"></result>
+        <result property="rationType" column="RATION_TYPE" jdbcType="VARCHAR"></result>
+        <result property="itemCode" column="ITEM_CODE" jdbcType="VARCHAR"></result>
+        <result property="itemNo" column="ITEM_NO" jdbcType="INTEGER"></result>
+        <result property="fieldAA" column="FIELD_A_A" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAB" column="FIELD_A_B" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAC" column="FIELD_A_C" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAD" column="FIELD_A_D" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAE" column="FIELD_A_E" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAF" column="FIELD_A_F" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAG" column="FIELD_A_G" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAH" column="FIELD_A_H" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAI" column="FIELD_A_I" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAJ" column="FIELD_A_J" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAK" column="FIELD_A_K" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAL" column="FIELD_A_L" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAM" column="FIELD_A_M" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAN" column="FIELD_A_N" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAO" column="FIELD_A_O" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAP" column="FIELD_A_P" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAQ" column="FIELD_A_Q" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAR" column="FIELD_A_R" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAS" column="FIELD_A_S" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAT" column="FIELD_A_T" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAU" column="FIELD_A_U" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAV" column="FIELD_A_V" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAW" column="FIELD_A_W" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAX" column="FIELD_A_X" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAY" column="FIELD_A_Y" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAZ" column="FIELD_A_Z" jdbcType="LONGVARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

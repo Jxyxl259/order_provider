@@ -1,0 +1,8 @@
+package com.yaic.app.order.service;
+
+import com.yaic.app.order.dto.domain.OrderRescueDto;
+import com.yaic.fa.service.IBaseService;
+
+public interface OrderRescueService extends IBaseService<OrderRescueDto> {
+
+}

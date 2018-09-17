@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderCargoDtlDao">
+
+	<resultMap id="orderCargoDtlResultMap" type="com.yaic.app.order.dto.domain.OrderCargoDtlDto">
+        <id property="cargoDtlId" column="CARGO_DTL_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="itemDetailNo" column="ITEM_DETAIL_NO" jdbcType="INTEGER"></result>
+        <result property="itemDetailCode" column="ITEM_DETAIL_CODE" jdbcType="VARCHAR"></result>
+        <result property="itemDetailName" column="ITEM_DETAIL_NAME" jdbcType="VARCHAR"></result>
+        <result property="itemDetailList" column="ITEM_DETAIL_LIST" jdbcType="VARCHAR"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="quantity" column="QUANTITY" jdbcType="DECIMAL"></result>
+        <result property="packing" column="PACKING" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

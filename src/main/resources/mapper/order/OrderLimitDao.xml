@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderLimitDao">
+
+	<resultMap id="orderLimitResultMap" type="com.yaic.app.order.dto.domain.OrderLimitDto">
+        <id property="limitId" column="LIMIT_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="serialNo" column="SERIAL_NO" jdbcType="INTEGER"></result>
+        <result property="kindCode" column="KIND_CODE" jdbcType="VARCHAR"></result>
+        <result property="limitCode" column="LIMIT_CODE" jdbcType="VARCHAR"></result>
+        <result property="limitName" column="LIMIT_NAME" jdbcType="VARCHAR"></result>
+        <result property="limitType" column="LIMIT_TYPE" jdbcType="VARCHAR"></result>
+        <result property="currency" column="CURRENCY" jdbcType="VARCHAR"></result>
+        <result property="limitValue" column="LIMIT_VALUE" jdbcType="DECIMAL"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="limitDesc" column="LIMIT_DESC" jdbcType="VARCHAR"></result>
+        <result property="limitClass" column="LIMIT_CLASS" jdbcType="VARCHAR"></result>
+        <result property="unitLimit" column="UNIT_LIMIT" jdbcType="DECIMAL"></result>
+        <result property="grossPremium" column="GROSS_PREMIUM" jdbcType="DECIMAL"></result>
+        <result property="totalLiabPeriod" column="TOTAL_LIAB_PERIOD" jdbcType="INTEGER"></result>
+        <result property="eachLiabPeriod" column="EACH_LIAB_PERIOD" jdbcType="INTEGER"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

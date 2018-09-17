@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.ShopOrderShippingDao">
+
+	<resultMap id="shopOrderShippingResultMap" type="com.yaic.app.order.dto.domain.ShopOrderShippingDto">
+        <id property="shippingId" column="SHIPPING_ID" jdbcType="INTEGER"></id>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="addTime" column="ADD_TIME" jdbcType="TIMESTAMP"></result>
+        <result property="receiverName" column="RECEIVER_NAME" jdbcType="VARCHAR"></result>
+        <result property="receiverPhone" column="RECEIVER_PHONE" jdbcType="VARCHAR"></result>
+        <result property="receiverProvinceCode" column="RECEIVER_PROVINCE_CODE" jdbcType="VARCHAR"></result>
+        <result property="receiverProvinceCname" column="RECEIVER_PROVINCE_CNAME" jdbcType="VARCHAR"></result>
+        <result property="receiverCityCode" column="RECEIVER_CITY_CODE" jdbcType="VARCHAR"></result>
+        <result property="receiverCityCname" column="RECEIVER_CITY_CNAME" jdbcType="VARCHAR"></result>
+        <result property="receiverAreaCode" column="RECEIVER_AREA_CODE" jdbcType="VARCHAR"></result>
+        <result property="receiverAreaCname" column="RECEIVER_AREA_CNAME" jdbcType="VARCHAR"></result>
+        <result property="receiverAddress" column="RECEIVER_ADDRESS" jdbcType="VARCHAR"></result>
+        <result property="receiverDate" column="RECEIVER_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="shippingWay" column="SHIPPING_WAY" jdbcType="VARCHAR"></result>
+        <result property="shippingStatus" column="SHIPPING_STATUS" jdbcType="VARCHAR"></result>
+        <result property="shippingTime" column="SHIPPING_TIME" jdbcType="TIMESTAMP"></result>
+        <result property="orderAmount" column="ORDER_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="shippingFee" column="SHIPPING_FEE" jdbcType="DECIMAL"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

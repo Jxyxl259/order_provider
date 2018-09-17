@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderPartnerDao">
+
+	<resultMap id="orderPartnerResultMap" type="com.yaic.app.order.dto.domain.OrderPartnerDto">
+        <id property="partnerId" column="PARTNER_ID" jdbcType="INTEGER"></id>
+        <id property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></id>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="orderMainId" column="ORDER_MAIN_ID" jdbcType="BIGINT"></result>
+        <result property="serialNo" column="SERIAL_NO" jdbcType="INTEGER"></result>
+        <result property="agreementNo" column="AGREEMENT_NO" jdbcType="VARCHAR"></result>
+        <result property="partnerType" column="PARTNER_TYPE" jdbcType="VARCHAR"></result>
+        <result property="partnerFlag" column="PARTNER_FLAG" jdbcType="VARCHAR"></result>
+        <result property="partnerCode" column="PARTNER_CODE" jdbcType="VARCHAR"></result>
+        <result property="partnerName" column="PARTNER_NAME" jdbcType="VARCHAR"></result>
+        <result property="partnerAlias" column="PARTNER_ALIAS" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

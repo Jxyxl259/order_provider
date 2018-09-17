@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderCoinsuranceDao">
+
+	<resultMap id="orderCoinsuranceResultMap" type="com.yaic.app.order.dto.domain.OrderCoinsuranceDto">
+        <id property="coinsuranceId" column="COINSURANCE_ID" jdbcType="INTEGER"></id>
+        <result property="orderMainId" column="ORDER_MAIN_ID" jdbcType="BIGINT"></result>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="coinsPolicyNo" column="COINS_POLICY_NO" jdbcType="VARCHAR"></result>
+        <result property="coinsCode" column="COINS_CODE" jdbcType="VARCHAR"></result>
+        <result property="coinsName" column="COINS_NAME" jdbcType="VARCHAR"></result>
+        <result property="coinsType" column="COINS_TYPE" jdbcType="VARCHAR"></result>
+        <result property="coinsRate" column="COINS_RATE" jdbcType="DECIMAL"></result>
+        <result property="principalInd" column="PRINCIPAL_IND" jdbcType="VARCHAR"></result>
+        <result property="leaderInd" column="LEADER_IND" jdbcType="VARCHAR"></result>
+        <result property="chiefAdjusterInd" column="CHIEF_ADJUSTER_IND" jdbcType="VARCHAR"></result>
+        <result property="currency" column="CURRENCY" jdbcType="VARCHAR"></result>
+        <result property="coinsInsured" column="COINS_INSURED" jdbcType="DECIMAL"></result>
+        <result property="coinsPremium" column="COINS_PREMIUM" jdbcType="DECIMAL"></result>
+        <result property="coinsHandlingRate" column="COINS_HANDLING_RATE" jdbcType="DECIMAL"></result>
+        <result property="coinsHandlingFee" column="COINS_HANDLING_FEE" jdbcType="DECIMAL"></result>
+        <result property="coinsAgencyRate" column="COINS_AGENCY_RATE" jdbcType="DECIMAL"></result>
+        <result property="coinsAgencyCommission" column="COINS_AGENCY_COMMISSION" jdbcType="DECIMAL"></result>
+        <result property="coinsIssueRate" column="COINS_ISSUE_RATE" jdbcType="DECIMAL"></result>
+        <result property="coinsIssueExpense" column="COINS_ISSUE_EXPENSE" jdbcType="DECIMAL"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"></result>
+        <result property="coinsPremiumAcceptInd" column="COINS_PREMIUM_ACCEPT_IND" jdbcType="VARCHAR"></result>
+        <result property="coinsPremiumCompose" column="COINS_PREMIUM_COMPOSE" jdbcType="VARCHAR"></result>
+        <result property="coinsAgencyPayInd" column="COINS_AGENCY_PAY_IND" jdbcType="VARCHAR"></result>
+        <result property="coinsLevyAcceptInd" column="COINS_LEVY_ACCEPT_IND" jdbcType="VARCHAR"></result>
+        <result property="coinsOthFeeRate" column="COINS_OTH_FEE_RATE" jdbcType="DECIMAL"></result>
+        <result property="coinsOthFee" column="COINS_OTH_FEE" jdbcType="DECIMAL"></result>
+        <result property="coinsOthfeeAcceptInd" column="COINS_OTHFEE_ACCEPT_IND" jdbcType="VARCHAR"></result>
+        <result property="coinsCompReserveRate" column="COINS_COMP_RESERVE_RATE" jdbcType="DECIMAL"></result>
+        <result property="coinsCompReserve" column="COINS_COMP_RESERVE" jdbcType="DECIMAL"></result>
+        <result property="coinsCompResAcceptInd" column="COINS_COMP_RES_ACCEPT_IND" jdbcType="VARCHAR"></result>
+        <result property="debitAccepter" column="DEBIT_ACCEPTER" jdbcType="VARCHAR"></result>
+        <result property="coinsClaimInd" column="COINS_CLAIM_IND" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+</mapper>
+

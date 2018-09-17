@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.ShopOrderPayinfoDao">
+
+	<resultMap id="shopOrderPayinfoResultMap" type="com.yaic.app.order.dto.domain.ShopOrderPayinfoDto">
+        <id property="payinfoId" column="PAYINFO_ID" jdbcType="INTEGER"></id>
+        <result property="orderCode" column="ORDER_CODE" jdbcType="BIGINT"></result>
+        <result property="payNo" column="PAY_NO" jdbcType="VARCHAR"></result>
+        <result property="payWay" column="PAY_WAY" jdbcType="VARCHAR"></result>
+        <result property="payAmount" column="PAY_AMOUNT" jdbcType="DECIMAL"></result>
+        <result property="payStatus" column="PAY_STATUS" jdbcType="VARCHAR"></result>
+        <result property="payDate" column="PAY_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="dataSource" column="DATA_SOURCE" jdbcType="VARCHAR"></result>
+	</resultMap>
+
+
+	<select id="forUpdateShopOrderPayInfoByPk" parameterType="com.yaic.app.order.dto.domain.ShopOrderPayinfoDto" 
+										resultType="com.yaic.app.order.dto.domain.ShopOrderPayinfoDto">
+		SELECT
+			g.payinfo_id payinfoId,
+			g.order_code orderCode
+		FROM
+			t_shop_order_payinfo g
+		WHERE
+			g.payinfo_id = #{payinfoId}
+		and g.order_code = #{orderCode} FOR UPDATE
+	</select>
+
+</mapper>
+

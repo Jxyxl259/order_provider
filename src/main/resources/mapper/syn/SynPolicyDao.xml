@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.syn.dao.SynPolicyDao">
+
+	<resultMap id="synPolicyResultMap" type="com.yaic.app.syn.dto.domain.SynPolicyDto">
+        <id property="orderCode" column="order_code" jdbcType="BIGINT"></id>
+        <result property="detailCount" column="detail_count" jdbcType="INTEGER"></result>
+        <result property="dealStatus" column="deal_status" jdbcType="VARCHAR"></result>
+        <result property="invalidFlag" column="invalid_flag" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="created_user" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="updated_user" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="updated_date" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<sql id="synPolicyAliasColumns">
+		g.order_code AS orderCode ,
+		g.detail_count AS detailCount ,
+		g.deal_status AS dealStatus ,
+		g.invalid_flag AS invalidFlag ,
+		g.created_user AS createdUser ,
+		g.created_date AS createdDate ,
+		g.updated_user AS updatedUser ,
+		g.updated_date AS updatedDate 
+	</sql>
+
+	<select id="findPageInfo" resultType="com.yaic.app.syn.dto.domain.SynPolicyDto">
+		SELECT
+			g.order_code orderCode,
+			g.detail_count detailCount,
+			g.deal_count dealCount,
+			g.deal_status AS dealStatus ,
+			g.invalid_flag AS invalidFlag ,
+			g.created_user AS createdUser ,
+			g.created_date AS createdDate ,
+			g.updated_user AS updatedUser ,
+			g.updated_date AS updatedDate 
+		FROM
+			t_syn_policy g
+		<where>
+			<![CDATA[
+				g.updated_date < #{updatedDate}
+			AND NOT EXISTS (
+				SELECT
+					1
+				FROM
+					t_syn_policy_dtl a,
+					t_syn_policy_filter_cfg a2
+				WHERE
+					a.order_code = g.order_code
+				AND a.agrt_code = a2.agrt_code
+				AND a2.invalid_flag = 0
+			)
+			]]>
+			<if test="orderCode != null and orderCode != '' ">
+			AND	g.order_code = #{orderCode}
+			</if>
+			<if test="detailCount != null and detailCount != '' ">
+			AND	g.detail_count = #{detailCount}
+			</if>
+			<if test="dealStatus != null and dealStatus != '' ">
+			AND	g.deal_status = #{dealStatus}
+			</if>
+			<if test="invalidFlag != null and invalidFlag != '' ">
+			AND	g.invalid_flag = #{invalidFlag}
+			</if>
+			<if test="createdUser != null and createdUser != '' ">
+			AND	g.created_user = #{createdUser}
+			</if>
+			<if test="createdDate != null and createdDate != '' ">
+			AND	g.created_date = #{createdDate}
+			</if>
+			<if test="updatedUser != null and updatedUser != '' ">
+			AND	g.updated_user = #{updatedUser}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findSynPolicyData" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDto"
+		resultType="com.yaic.app.syn.dto.domain.SynPolicyDto">
+		<![CDATA[
+		SELECT
+			g.order_code orderCode,
+			g.detail_count detailCount,
+			g.deal_status dealStatus,
+			g.deal_count dealCount,
+			g.created_date createdDate
+		FROM
+			t_syn_policy g
+		WHERE
+			g.created_date >= DATE_ADD(#{nowTime}, INTERVAL - #{dealBeforeDate} DAY)
+		AND g.invalid_flag = 0
+		AND g.deal_status IN ('0', '3')
+		AND g.deal_count <= #{dealCount}
+		AND NOT EXISTS (
+			SELECT
+				1
+			FROM
+				t_syn_policy_dtl a,
+				t_syn_policy_filter_cfg a2
+			WHERE
+				a.order_code = g.order_code
+			AND a.agrt_code = a2.agrt_code
+			AND a2.invalid_flag = 0
+		)
+		ORDER BY
+			g.created_date ${sortType}
+		LIMIT #{limitCount}
+		 ]]>
+	</select>
+	
+	<select id="findSynPolicyProcessData" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDto"
+		resultType="com.yaic.app.syn.dto.domain.SynPolicyDto">
+		<![CDATA[
+		SELECT
+			g.order_code orderCode,
+			g.detail_count detailCount,
+			g.deal_status dealStatus,
+			g.deal_count dealCount,
+			g.created_date createdDate
+		FROM
+			t_syn_policy g
+		WHERE
+			g.created_date >= DATE_ADD(#{nowTime}, INTERVAL - #{dealBeforeDate} DAY)
+		AND g.invalid_flag = 0
+		AND g.deal_status = '1'
+		AND g.deal_count <= #{dealCount}
+		AND	g.updated_date < DATE_ADD(#{nowTime}, INTERVAL - 3 HOUR)
+		AND NOT EXISTS (
+			SELECT
+				1
+			FROM
+				t_syn_policy_dtl a,
+				t_syn_policy_filter_cfg a2
+			WHERE
+				a.order_code = g.order_code
+			AND a.agrt_code = a2.agrt_code
+			AND a2.invalid_flag = 0
+		)
+		ORDER BY
+			g.created_date
+		LIMIT #{limitCount}
+		 ]]>
+	</select>
+	
+	<update id="updateSynPolicyProcessData" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDto">
+		<![CDATA[
+		UPDATE t_syn_policy
+			SET updated_user = #{updatedUser}, updated_date = #{nowTime}
+			WHERE
+				order_code = #{orderCode}
+			AND deal_status = '1'
+			AND updated_date < DATE_ADD(#{nowTime}, INTERVAL - 3 HOUR)
+		]]>
+	</update>
+	
+	<!-- 删除N天前任务数据 -->
+	<delete id="deleteSynPolicyData" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDto"> 
+    	DELETE
+		FROM
+			t_syn_policy
+		WHERE
+			order_code IN (
+				SELECT
+					n.order_code
+				FROM
+					(
+						SELECT
+							a.order_code
+						FROM
+							t_syn_policy a
+						WHERE
+							<![CDATA[
+							a.updated_date < DATE_ADD(#{nowTime}, INTERVAL - #{dealBeforeDate} DAY)
+							]]>
+						AND a.deal_status = '2'
+						AND (
+					   		SELECT
+					   			count(1)
+					   		FROM
+					   			t_syn_policy_dtl a2
+					   		WHERE
+					   			a2.order_code = a.order_code
+					   	) = 0
+					) AS n
+			)
+		AND deal_status = '2'
+		LIMIT #{limitCount}
+	</delete>
+
+	<select id="querySynPolicyCount" parameterType="com.yaic.app.syn.dto.domain.SynPolicyDto" resultType="java.lang.Integer">
+		SELECT
+			count(1)
+		FROM
+			t_syn_policy g
+		<where>
+			<![CDATA[
+				g.deal_status = #{dealStatus}
+			AND	g.invalid_flag = 0
+			AND g.detail_count = (
+									SELECT
+										count(1)
+									FROM
+										t_syn_policy_dtl a3
+									WHERE
+										a3.order_code = g.order_code
+								  )
+			]]>
+		</where>
+	</select>
+
+</mapper>

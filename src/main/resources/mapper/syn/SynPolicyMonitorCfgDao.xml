@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.syn.dao.SynPolicyMonitorCfgDao">
+
+	<resultMap id="synPolicyMonitorCfgResultMap" type="com.yaic.app.syn.dto.domain.SynPolicyMonitorCfgDto">
+        <id property="monitorType" column="monitor_type" jdbcType="VARCHAR"></id>
+        <result property="description" column="description" jdbcType="VARCHAR"></result>
+        <result property="threshold" column="threshold" jdbcType="INTEGER"></result>
+        <result property="warnMsg" column="warn_msg" jdbcType="VARCHAR"></result>
+        <result property="mobile" column="mobile" jdbcType="LONGVARCHAR"></result>
+        <result property="smsSwitch" column="sms_switch" jdbcType="INTEGER"></result>
+        <result property="email" column="email" jdbcType="LONGVARCHAR"></result>
+        <result property="emailSwitch" column="email_switch" jdbcType="INTEGER"></result>
+        <result property="invalidFlag" column="invalid_flag" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="created_user" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="updated_user" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="updated_date" jdbcType="TIMESTAMP"></result>
+	</resultMap>
+
+	<sql id="synPolicyMonitorCfgAliasColumns">
+		g.monitor_type AS monitorType ,
+		g.description AS description ,
+		g.threshold AS threshold ,
+		g.warn_msg AS warnMsg ,
+		g.mobile AS mobile ,
+		g.sms_switch AS smsSwitch ,
+		g.email AS email ,
+		g.email_switch AS emailSwitch ,
+		g.invalid_flag AS invalidFlag ,
+		g.created_user AS createdUser ,
+		g.created_date AS createdDate ,
+		g.updated_user AS updatedUser ,
+		g.updated_date AS updatedDate 
+	</sql>
+
+	<select id="findPageInfo" resultType="com.yaic.app.syn.dto.domain.SynPolicyMonitorCfgDto">
+		SELECT
+			g.monitor_type AS monitorType ,
+			g.description AS description ,
+			g.threshold AS threshold ,
+			g.warn_msg AS warnMsg ,
+			g.mobile AS mobile ,
+			g.sms_switch AS smsSwitch ,
+			g.email AS email ,
+			g.email_switch AS emailSwitch ,
+			g.invalid_flag AS invalidFlag ,
+			g.created_user AS createdUser ,
+			g.created_date AS createdDate ,
+			g.updated_user AS updatedUser ,
+			g.updated_date AS updatedDate 
+		FROM
+			t_syn_policy_monitor_cfg g
+		<where>
+			1=1
+			<if test="monitorType != null and monitorType != '' ">
+			AND	g.monitor_type = #{monitorType}
+			</if>
+			<if test="description != null and description != '' ">
+			AND	g.description = #{description}
+			</if>
+			<if test="threshold != null and threshold != '' ">
+			AND	g.threshold = #{threshold}
+			</if>
+			<if test="warnMsg != null and warnMsg != '' ">
+			AND	g.warn_msg = #{warnMsg}
+			</if>
+			<if test="mobile != null and mobile != '' ">
+			AND	g.mobile = #{mobile}
+			</if>
+			<if test="smsSwitch != null and smsSwitch != '' ">
+			AND	g.sms_switch = #{smsSwitch}
+			</if>
+			<if test="email != null and email != '' ">
+			AND	g.email = #{email}
+			</if>
+			<if test="emailSwitch != null and emailSwitch != '' ">
+			AND	g.email_switch = #{emailSwitch}
+			</if>
+			<if test="invalidFlag != null and invalidFlag != '' ">
+			AND	g.invalid_flag = #{invalidFlag}
+			</if>
+			<if test="createdUser != null and createdUser != '' ">
+			AND	g.created_user = #{createdUser}
+			</if>
+			<if test="createdDate != null and createdDate != '' ">
+			AND	g.created_date = #{createdDate}
+			</if>
+			<if test="updatedUser != null and updatedUser != '' ">
+			AND	g.updated_user = #{updatedUser}
+			</if>
+			<if test="updatedDate != null and updatedDate != '' ">
+			AND	g.updated_date = #{updatedDate}
+			</if>
+		</where>
+	</select>
+
+</mapper>

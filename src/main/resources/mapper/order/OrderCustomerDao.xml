@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderCustomerDao">
+
+	<resultMap id="orderCustomerResultMap" type="com.yaic.app.order.dto.domain.OrderCustomerDto">
+        <id property="customerId" column="CUSTOMER_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="order_main_id" jdbcType="INTEGER"></result>
+        <result property="customerType" column="CUSTOMER_TYPE" jdbcType="VARCHAR"></result>
+        <result property="customerName" column="CUSTOMER_NAME" jdbcType="VARCHAR"></result>
+        <result property="docType" column="DOC_TYPE" jdbcType="VARCHAR"></result>
+        <result property="docNo" column="DOC_NO" jdbcType="VARCHAR"></result>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"></result>
+        <result property="birthDate" column="BIRTH_DATE" jdbcType="DATE"></result>
+        <result property="postCode" column="POST_CODE" jdbcType="VARCHAR"></result>
+        <result property="phoneNo" column="PHONE_NO" jdbcType="VARCHAR"></result>
+        <result property="age" column="AGE" jdbcType="VARCHAR"></result>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"></result>
+        <result property="customerProvinces" column="CUSTOMER_PROVINCES" jdbcType="VARCHAR"></result>
+        <result property="customerCity" column="CUSTOMER_CITY" jdbcType="VARCHAR"></result>
+        <result property="customerAddress" column="CUSTOMER_ADDRESS" jdbcType="VARCHAR"></result>
+        <result property="customerRelations" column="CUSTOMER_RELATIONS" jdbcType="VARCHAR"></result>
+        <result property="customerFlag" column="CUSTOMER_FLAG" jdbcType="VARCHAR"></result>
+        <result property="customerSameInd" column="CUSTOMER_SAME_IND" jdbcType="VARCHAR"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="companyNature" column="COMPANY_NATURE" jdbcType="VARCHAR"></result>
+        <result property="totalQuantity" column="TOTAL_QUANTITY" jdbcType="INTEGER"></result>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"></result>
+	</resultMap>
+		<!--查询记录列表-->
+	<select id="orderInfoQuery" parameterType="java.util.HashMap" resultType="com.yaic.app.order.dto.domain.ShopOrderGoodsDto">
+			<include refid="OrderInfoQueryCase" />
+	</select>
+	<sql id="OrderInfoQueryCase">
+       <![CDATA[
+    	SELECT
+    		distinct
+    	    a2.order_code orderCode,
+    	    a2.created_user createdUser
+          FROM
+          	t_order_customer a1,
+          	t_shop_order_goods a2
+          WHERE a1.order_main_id = a2.goods_no
+          	AND a2.goods_id = #{riskCode}
+            AND a1.invalid_flag = 0
+			AND a2.invalid_flag = 0        
+        ]]>
+        <if test="customerName != null and customerName != ''">
+			<![CDATA[
+				AND a1.customer_Name = #{customerName}
+			]]>
+		</if>
+        <if test="docType != null and docType != ''">
+			<![CDATA[
+				AND a1.doc_Type = #{docType}
+			]]>
+		</if>
+		<if test="docNo != null and docNo != ''">
+			<![CDATA[
+				AND a1.doc_No = #{docNo}
+			]]>
+		</if>
+		<if test="phoneNo != null and phoneNo != ''">
+			<![CDATA[
+				AND a1.phone_No = #{phoneNo}
+			]]>
+		</if>
+		<if test="customerFlag != null and customerFlag != ''">
+			<![CDATA[
+				AND a1.customer_flag = #{customerFlag}
+			]]>
+		</if>
+    </sql>
+</mapper>
+

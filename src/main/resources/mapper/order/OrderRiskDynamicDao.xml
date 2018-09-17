@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yaic.app.order.dao.OrderRiskDynamicDao">
+
+	<resultMap id="orderRiskDynamicResultMap" type="com.yaic.app.order.dto.domain.OrderRiskDynamicDto">
+        <id property="riskDynamicId" column="RISK_DYNAMIC_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDER_ID" jdbcType="INTEGER"></result>
+        <result property="aoka" column="AOKA" jdbcType="DECIMAL"></result>
+        <result property="aop" column="AOP" jdbcType="DECIMAL"></result>
+        <result property="nominativeInd" column="NOMINATIVE_IND" jdbcType="VARCHAR"></result>
+        <result property="uploadInd" column="UPLOAD_IND" jdbcType="VARCHAR"></result>
+        <result property="uploadStatusInd" column="UPLOAD_STATUS_IND" jdbcType="VARCHAR"></result>
+        <result property="sortInd" column="SORT_IND" jdbcType="VARCHAR"></result>
+        <result property="calculateType" column="CALCULATE_TYPE" jdbcType="VARCHAR"></result>
+        <result property="contractTitle" column="CONTRACT_TITLE" jdbcType="LONGVARCHAR"></result>
+        <result property="contractAddress" column="CONTRACT_ADDRESS" jdbcType="LONGVARCHAR"></result>
+        <result property="contractType" column="CONTRACT_TYPE" jdbcType="VARCHAR"></result>
+        <result property="contractValue" column="CONTRACT_VALUE" jdbcType="DECIMAL"></result>
+        <result property="contractArea" column="CONTRACT_AREA" jdbcType="DECIMAL"></result>
+        <result property="remark" column="REMARK" jdbcType="LONGVARCHAR"></result>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"></result>
+        <result property="fieldAa" column="FIELD_AA" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAb" column="FIELD_AB" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAc" column="FIELD_AC" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAd" column="FIELD_AD" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAe" column="FIELD_AE" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAf" column="FIELD_AF" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAg" column="FIELD_AG" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAh" column="FIELD_AH" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAi" column="FIELD_AI" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAj" column="FIELD_AJ" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAk" column="FIELD_AK" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAl" column="FIELD_AL" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAm" column="FIELD_AM" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAn" column="FIELD_AN" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAo" column="FIELD_AO" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAp" column="FIELD_AP" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAq" column="FIELD_AQ" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAr" column="FIELD_AR" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAs" column="FIELD_AS" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAt" column="FIELD_AT" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAu" column="FIELD_AU" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAv" column="FIELD_AV" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAw" column="FIELD_AW" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAx" column="FIELD_AX" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAy" column="FIELD_AY" jdbcType="LONGVARCHAR"></result>
+        <result property="fieldAz" column="FIELD_AZ" jdbcType="LONGVARCHAR"></result>
+        <result property="invalidFlag" column="INVALID_FLAG" jdbcType="TINYINT"></result>
+        <result property="createdUser" column="CREATED_USER" jdbcType="VARCHAR"></result>
+        <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="updatedUser" column="UPDATED_USER" jdbcType="VARCHAR"></result>
+        <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"></result>
+        <result property="riskCode" column="RISK_CODE" jdbcType="VARCHAR"></result>
+	</resultMap>
+
+</mapper>
+
