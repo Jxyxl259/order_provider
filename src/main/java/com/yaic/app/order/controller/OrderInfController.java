@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -40,7 +41,7 @@ public class OrderInfController {
     private OrderRouteService orderRouteService;
 
     @RequestMapping(value = "/order-service.do", method = RequestMethod.POST)
-    protected void handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void handleRequestInternal(HttpServletRequest request, HttpServletResponse response, @RequestBody String requestData) throws Exception {
 		LOG.info("-------------服务调用开始---------------");
 
 		final String ip = request.getRemoteHost();
@@ -51,13 +52,16 @@ public class OrderInfController {
 
 		LOG.info("[CommServer:{}] Begin - IP: {}; URI: {}", id, ip, url);
 
+		String token = request.getParameter("token");
+		LOG.info("token -->" + token);
+
 		final StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
-		final String orderJSON = getDecodedOrderJson(request);
+		final String orderJSON = requestData;
 		LOG.info("接口处理开始, 接到原始接口信息：{}", orderJSON);
 
-		String responseMessage = orderRouteService.orderRoute(orderJSON);
+		String responseMessage = "服务响应结果";//orderRouteService.orderRoute(requestData);
 		LOG.info("接口处理结束, 响应信息={}", responseMessage);
 
 		// 进行编码处理

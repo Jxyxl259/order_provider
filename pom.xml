@@ -76,9 +76,30 @@
 		<sysframework.version>1.0.0</sysframework.version>
 		<shiro.version>1.2.2</shiro.version>
 		<yafa.version>1.0.0</yafa.version>
+		<eureke.version>1.3.1.RELEASE</eureke.version>
+		<spring-cloud-config.version>1.3.1.RELEASE</spring-cloud-config.version>
 	</properties>
 
 	<dependencies>
+
+		<!-- 服务治理 start -->
+		<!-- actuator监控信息完善 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- 将微服务provider侧注册进eureka -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+			<version>${eureke.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+			<version>${spring-cloud-config.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
